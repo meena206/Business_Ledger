@@ -1,0 +1,8 @@
+# Created by .ignore support plugin
+# Byte-compiled
+__pycach__/
+*.pyc
+
+# Environments
+venv/
+.env

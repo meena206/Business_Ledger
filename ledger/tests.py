@@ -1,0 +1,66 @@
+from decimal import Decimal
+from django.test import TestCase
+from django.contrib.auth.models import User
+from django.urls import reverse
+
+from .models import Customer, Transaction
+from .search import CustomerTrie
+
+
+class ModelsTestCase(TestCase):
+	def setUp(self):
+		self.user = User.objects.create_user(username="test", password="pass")
+		self.customer = Customer.objects.create(owner=self.user, name="ACME", phone="12345")
+
+	def test_transaction_and_balance(self):
+		Transaction.objects.create(customer=self.customer, transaction_type="CREDIT", amount=Decimal("100.00"), date="2026-01-01")
+		Transaction.objects.create(customer=self.customer, transaction_type="DEBIT", amount=Decimal("40.00"), date="2026-01-02")
+
+		self.assertEqual(self.customer.total_credit, Decimal("100.00"))
+		self.assertEqual(self.customer.total_debit, Decimal("40.00"))
+		self.assertEqual(self.customer.balance, Decimal("60.00"))
+
+
+class CustomerTrieTest(TestCase):
+	def setUp(self):
+		self.user = User.objects.create_user(username="trie-user", password="pass")
+
+	def test_search_matches_substrings_case_insensitively(self):
+		customer = Customer.objects.create(
+			owner=self.user,
+			name="Alice Johnson",
+			phone="555-1234",
+			city="Springfield",
+		)
+		trie = CustomerTrie()
+		trie.add(customer)
+
+		self.assertEqual(trie.search("john"), {customer.id})
+		self.assertEqual(trie.search("1234"), {customer.id})
+		self.assertEqual(trie.search("SPRING"), {customer.id})
+
+
+class CustomerSearchViewTest(TestCase):
+	def setUp(self):
+		self.user = User.objects.create_user(username="owner", password="pass")
+		self.other_user = User.objects.create_user(username="other", password="pass")
+		self.customer = Customer.objects.create(
+			owner=self.user,
+			name="Alice Johnson",
+			phone="555-1234",
+			city="Springfield",
+		)
+		Customer.objects.create(
+			owner=self.other_user,
+			name="Alice Johnson",
+			phone="555-1234",
+			city="Springfield",
+		)
+		self.client.login(username="owner", password="pass")
+
+	def test_search_uses_trie_and_keeps_customer_ownership_isolated(self):
+		response = self.client.get(reverse("customer_list"), {"search": "john"})
+
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, str(self.customer.name))
+		self.assertEqual(list(response.context["customers"]), [self.customer])

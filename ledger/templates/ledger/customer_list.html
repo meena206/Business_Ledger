@@ -1,0 +1,63 @@
+{% extends "ledger/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0"><i class="bi bi-people"></i> Customers</h1>
+    <a href="{% url 'customer_add' %}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Customer</a>
+</div>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+        <form method="get" id="customer-search-form" class="row g-2">
+            <div class="col-md-8">
+                <input type="search" name="search" value="{{ search }}" placeholder="Search by name, phone, or city..." class="form-control">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-outline-primary w-100"><i class="bi bi-search"></i> Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="customer-results">
+{% if customers %}
+<div class="row g-3">
+    {% for c in customers %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm border-0 h-100 hover-card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-person"></i> {{ c.name }}</h5>
+                <dl class="row mb-3">
+                    <dt class="col-sm-4 text-muted small">Phone:</dt>
+                    <dd class="col-sm-8"><small>{{ c.phone }}</small></dd>
+                    
+                    {% if c.city %}
+                    <dt class="col-sm-4 text-muted small">City:</dt>
+                    <dd class="col-sm-8"><small>{{ c.city }}</small></dd>
+                    {% endif %}
+                    
+                    {% if c.email %}
+                    <dt class="col-sm-4 text-muted small">Email:</dt>
+                    <dd class="col-sm-8"><small>{{ c.email }}</small></dd>
+                    {% endif %}
+                    
+                    <dt class="col-sm-4 text-muted small">Balance:</dt>
+                    <dd class="col-sm-8"><small class="{% if c.balance >= 0 %}text-success{% else %}text-danger{% endif %} fw-bold">{{ c.balance|floatformat:2 }}</small></dd>
+                </dl>
+            </div>
+            <div class="card-footer bg-light border-top">
+                <a href="{% url 'customer_detail' customer_id=c.id %}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i> View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info text-center py-5">
+    <i class="bi bi-inbox fs-1"></i>
+    <p class="mb-0 mt-2">No customers yet. <a href="{% url 'customer_add' %}">Create one now</a></p>
+</div>
+{% endif %}
+</div>
+
+{% endblock %}

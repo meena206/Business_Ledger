@@ -1,0 +1,120 @@
+{% extends "ledger/base.html" %}
+
+{% block content %}
+<h1 class="mb-4"><i class="bi bi-bar-chart"></i> Financial Reports</h1>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="card shadow-sm border-0 bg-success text-white">
+            <div class="card-body">
+                <p class="card-text opacity-75 mb-2">Total Credit</p>
+                <h2 class="card-title mb-0">{{ total_credit|floatformat:2 }}</h2>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="card shadow-sm border-0 bg-danger text-white">
+            <div class="card-body">
+                <p class="card-text opacity-75 mb-2">Total Debit</p>
+                <h2 class="card-title mb-0">{{ total_debit|floatformat:2 }}</h2>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="card shadow-sm border-0 {% if balance >= 0 %}bg-primary{% else %}bg-warning{% endif %} text-white">
+            <div class="card-body">
+                <p class="card-text opacity-75 mb-2">Net Balance</p>
+                <h2 class="card-title mb-0">{{ balance|floatformat:2 }}</h2>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="card shadow-sm border-0 bg-info text-white">
+            <div class="card-body">
+                <p class="card-text opacity-75 mb-2">Total Transactions</p>
+                <h2 class="card-title mb-0">{{ transaction_count }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light border-bottom">
+                <h5 class="mb-0"><i class="bi bi-pie-chart"></i> Financial Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Credit Transactions</span>
+                        <strong>{{ total_credit|floatformat:2 }}</strong>
+                    </div>
+                    <div class="progress">
+                        {% if total_credit > 0 %}
+                            <div class="progress-bar bg-success" style="width: 100%"></div>
+                        {% else %}
+                            <div class="progress-bar bg-success" style="width: 0%"></div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Debit Transactions</span>
+                        <strong>{{ total_debit|floatformat:2 }}</strong>
+                    </div>
+                    <div class="progress">
+                        {% if total_debit > 0 %}
+                            <div class="progress-bar bg-danger" style="width: 100%"></div>
+                        {% else %}
+                            <div class="progress-bar bg-danger" style="width: 0%"></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light border-bottom">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Report Information</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-6">Total Transactions</dt>
+                    <dd class="col-sm-6"><strong>{{ transaction_count }}</strong></dd>
+                    
+                    <dt class="col-sm-6">Credit Amount</dt>
+                    <dd class="col-sm-6"><strong class="text-success">+{{ total_credit|floatformat:2 }}</strong></dd>
+                    
+                    <dt class="col-sm-6">Debit Amount</dt>
+                    <dd class="col-sm-6"><strong class="text-danger">-{{ total_debit|floatformat:2 }}</strong></dd>
+                    
+                    <dt class="col-sm-6">Net Balance</dt>
+                    <dd class="col-sm-6"><strong class="{% if balance >= 0 %}text-success{% else %}text-danger{% endif %}">{{ balance|floatformat:2 }}</strong></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-lg-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light border-bottom">
+                <h5 class="mb-0"><i class="bi bi-download"></i> Export Reports</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Use the Ledger History page to filter and analyze detailed transaction records.</p>
+                <a href="{% url 'ledger_history' %}" class="btn btn-primary"><i class="bi bi-file-text"></i> View Ledger History</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

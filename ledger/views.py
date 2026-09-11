@@ -8,8 +8,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CustomerForm, RegisterForm, TransactionForm
 from .models import Customer, Transaction
-from .search import CustomerTrie
 
+def landing_page(request):
+
+    return render(request, "ledger/landing.html")
 
 def register_view(request):
     if request.user.is_authenticated:

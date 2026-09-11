@@ -8,7 +8,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CustomerForm, RegisterForm, TransactionForm
 from .models import Customer, Transaction
-from .search import CustomerTrie
 
 
 def register_view(request):
@@ -60,11 +59,11 @@ def customer_list(request):
 
     search = request.GET.get("search", "").strip()
     if search:
-        customer_trie = CustomerTrie()
-        for customer in customers:
-            customer_trie.add(customer)
-        matching_ids = customer_trie.search(search)
-        customers = customers.filter(id__in=matching_ids)
+        customers = customers.filter(
+            Q(name__icontains=search)
+            | Q(phone__icontains=search)
+            | Q(city__icontains=search)
+        )
 
     return render(request, "ledger/customer_list.html", {"customers": customers, "search": search})
 

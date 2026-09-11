@@ -50,7 +50,7 @@ python manage.py runserver
    - Add/Edit/Delete customers
    - View customer details
    - Search by name, phone, or city while typing
-   - Trie-backed search without a full-page refresh
+   - Search without a full-page refresh
    - See customer balance
 
 ### 3. **Transactions**
@@ -208,5 +208,5 @@ For issues or questions, refer to the README.md file for comprehensive documenta
 ---
 
 **Version**: 1.0  
-**Created**: 2024  
+**Created**: 2026
 **Status**: Ready for Production

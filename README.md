@@ -158,8 +158,7 @@ Business_Ledger/
 │   │   └── ledger/
 │   │       ├── css/style.css
 │   │       └── js/script.js  # Live customer search behavior
-│   ├── search.py             # Customer trie search implementation
-│   └── migrations/           # Database migrations
+│   ├── migrations/           # Database migrations
 └── README.md                 # This file
 ```
 
@@ -209,8 +208,7 @@ Business_Ledger/
 - View detailed transaction information
 
 ### Customer Search
-- `CustomerTrie` indexes searchable customer field substrings in memory
-- Search is case-insensitive across name, phone, and city
+- Searches are case-insensitive across name, phone, and city
 - The browser fetches updated results without a full-page refresh
 
 ### Responsive Features
@@ -268,7 +266,6 @@ For production deployment:
 
 ## Performance Tips
 
-- The customer trie avoids repeated database substring matching during interactive search
 - Implement pagination for large datasets
 - Cache dashboard data for better performance
 - Use database connection pooling

@@ -1,10 +1,10 @@
 from decimal import Decimal
+from django.db.models import Q
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
 
 from .models import Customer, Transaction
-from .search import CustomerTrie
 
 
 class ModelsTestCase(TestCase):
@@ -21,23 +21,23 @@ class ModelsTestCase(TestCase):
 		self.assertEqual(self.customer.balance, Decimal("60.00"))
 
 
-class CustomerTrieTest(TestCase):
+class CustomerSearchQueryTest(TestCase):
 	def setUp(self):
-		self.user = User.objects.create_user(username="trie-user", password="pass")
+		self.user = User.objects.create_user(username="search-user", password="pass")
 
-	def test_search_matches_substrings_case_insensitively(self):
+	def test_query_matches_substrings_case_insensitively(self):
 		customer = Customer.objects.create(
 			owner=self.user,
 			name="Alice Johnson",
 			phone="555-1234",
 			city="Springfield",
 		)
-		trie = CustomerTrie()
-		trie.add(customer)
 
-		self.assertEqual(trie.search("john"), {customer.id})
-		self.assertEqual(trie.search("1234"), {customer.id})
-		self.assertEqual(trie.search("SPRING"), {customer.id})
+		results = Customer.objects.filter(owner=self.user).filter(
+			Q(name__icontains="john") | Q(phone__icontains="1234") | Q(city__icontains="SPRING")
+		)
+
+		self.assertEqual(list(results), [customer])
 
 
 class CustomerSearchViewTest(TestCase):
@@ -58,7 +58,7 @@ class CustomerSearchViewTest(TestCase):
 		)
 		self.client.login(username="owner", password="pass")
 
-	def test_search_uses_trie_and_keeps_customer_ownership_isolated(self):
+	def test_search_filters_by_customer_fields_and_keeps_customer_ownership_isolated(self):
 		response = self.client.get(reverse("customer_list"), {"search": "john"})
 
 		self.assertEqual(response.status_code, 200)

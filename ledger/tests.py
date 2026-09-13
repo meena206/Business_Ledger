@@ -21,8 +21,6 @@ class ModelsTestCase(TestCase):
 		self.assertEqual(self.customer.balance, Decimal("60.00"))
 
 
-<<<<<<< HEAD
-=======
 class CustomerSearchQueryTest(TestCase):
 	def setUp(self):
 		self.user = User.objects.create_user(username="search-user", password="pass")
@@ -42,7 +40,6 @@ class CustomerSearchQueryTest(TestCase):
 		self.assertEqual(list(results), [customer])
 
 
->>>>>>> landing_page
 class CustomerSearchViewTest(TestCase):
 	def setUp(self):
 		self.user = User.objects.create_user(username="owner", password="pass")
@@ -61,11 +58,7 @@ class CustomerSearchViewTest(TestCase):
 		)
 		self.client.login(username="owner", password="pass")
 
-<<<<<<< HEAD
 	def test_search_keeps_customer_ownership_isolated(self):
-=======
-	def test_search_filters_by_customer_fields_and_keeps_customer_ownership_isolated(self):
->>>>>>> landing_page
 		response = self.client.get(reverse("customer_list"), {"search": "john"})
 
 		self.assertEqual(response.status_code, 200)

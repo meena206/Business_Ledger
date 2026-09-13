@@ -158,7 +158,11 @@ Business_Ledger/
 │   │   └── ledger/
 │   │       ├── css/style.css
 │   │       └── js/script.js  # Live customer search behavior
+<<<<<<< HEAD
 │   └── migrations/           # Database migrations
+=======
+│   ├── migrations/           # Database migrations
+>>>>>>> landing_page
 └── README.md                 # This file
 ```
 
@@ -208,7 +212,11 @@ Business_Ledger/
 - View detailed transaction information
 
 ### Customer Search
+<<<<<<< HEAD
 - Search is case-insensitive across name, phone, and city
+=======
+- Searches are case-insensitive across name, phone, and city
+>>>>>>> landing_page
 - The browser fetches updated results without a full-page refresh
 
 ### Responsive Features

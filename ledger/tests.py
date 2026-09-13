@@ -1,4 +1,5 @@
 from decimal import Decimal
+from django.db.models import Q
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -20,6 +21,28 @@ class ModelsTestCase(TestCase):
 		self.assertEqual(self.customer.balance, Decimal("60.00"))
 
 
+<<<<<<< HEAD
+=======
+class CustomerSearchQueryTest(TestCase):
+	def setUp(self):
+		self.user = User.objects.create_user(username="search-user", password="pass")
+
+	def test_query_matches_substrings_case_insensitively(self):
+		customer = Customer.objects.create(
+			owner=self.user,
+			name="Alice Johnson",
+			phone="555-1234",
+			city="Springfield",
+		)
+
+		results = Customer.objects.filter(owner=self.user).filter(
+			Q(name__icontains="john") | Q(phone__icontains="1234") | Q(city__icontains="SPRING")
+		)
+
+		self.assertEqual(list(results), [customer])
+
+
+>>>>>>> landing_page
 class CustomerSearchViewTest(TestCase):
 	def setUp(self):
 		self.user = User.objects.create_user(username="owner", password="pass")
@@ -38,7 +61,11 @@ class CustomerSearchViewTest(TestCase):
 		)
 		self.client.login(username="owner", password="pass")
 
+<<<<<<< HEAD
 	def test_search_keeps_customer_ownership_isolated(self):
+=======
+	def test_search_filters_by_customer_fields_and_keeps_customer_ownership_isolated(self):
+>>>>>>> landing_page
 		response = self.client.get(reverse("customer_list"), {"search": "john"})
 
 		self.assertEqual(response.status_code, 200)

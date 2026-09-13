@@ -9,6 +9,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import CustomerForm, RegisterForm, TransactionForm
 from .models import Customer, Transaction
 
+def landing_page(request):
+
+    return render(request, "ledger/landing.html")
 
 def register_view(request):
     if request.user.is_authenticated:
@@ -60,9 +63,13 @@ def customer_list(request):
     search = request.GET.get("search", "").strip()
     if search:
         customers = customers.filter(
+<<<<<<< HEAD
             Q(name__icontains=search)
             | Q(phone__icontains=search)
             | Q(city__icontains=search)
+=======
+            Q(name__icontains=search) | Q(phone__icontains=search) | Q(city__icontains=search)
+>>>>>>> landing_page
         )
 
     return render(request, "ledger/customer_list.html", {"customers": customers, "search": search})

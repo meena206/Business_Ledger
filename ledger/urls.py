@@ -4,10 +4,10 @@ from . import views
 
 urlpatterns = [
     path("",views.landing_page,name="landing"),
-    path("", views.dashboard, name="dashboard"),
 
     path("register/", views.register_view, name="register"),
     path("login/", auth_views.LoginView.as_view(template_name="ledger/login.html"), name="login"),
+    path("dashboard/", views.dashboard, name="dashboard"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 
     path("customers/", views.customer_list, name="customer_list"),

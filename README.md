@@ -158,11 +158,7 @@ Business_Ledger/
 │   │   └── ledger/
 │   │       ├── css/style.css
 │   │       └── js/script.js  # Live customer search behavior
-<<<<<<< HEAD
 │   └── migrations/           # Database migrations
-=======
-│   ├── migrations/           # Database migrations
->>>>>>> landing_page
 └── README.md                 # This file
 ```
 
@@ -171,7 +167,7 @@ Business_Ledger/
 ### Authentication
 - `GET/POST /register/` - User registration
 - `GET/POST /login/` - User login
-- `GET /logout/` - User logout
+- `POST /logout/` - User logout
 
 ### Dashboard
 - `GET /` - Dashboard home page
@@ -212,12 +208,13 @@ Business_Ledger/
 - View detailed transaction information
 
 ### Customer Search
-<<<<<<< HEAD
-- Search is case-insensitive across name, phone, and city
-=======
 - Searches are case-insensitive across name, phone, and city
->>>>>>> landing_page
 - The browser fetches updated results without a full-page refresh
+
+### Navigation and Authentication
+- The application navbar uses the landing page's responsive visual style
+- Login and register pages do not display the main navbar
+- Logout is submitted as a CSRF-protected `POST` request
 
 ### Responsive Features
 - Mobile-friendly navigation

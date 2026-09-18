@@ -50,11 +50,9 @@ python manage.py runserver
    - Add/Edit/Delete customers
    - View customer details
    - Search by name, phone, or city while typing
- HEAD
    - Search without a full-page refresh
-
- landing_page
    - See customer balance
+    - See customer balance
 
 ### 3. **Transactions**
    - Add credit/debit transactions
@@ -83,6 +81,7 @@ python manage.py runserver
 - Smooth animations and transitions
 - Color-coded status indicators
 - Responsive mobile design
+- Landing-style responsive navigation
 
 💡 **Smart Features**
 - Auto-dismissing notifications
@@ -110,7 +109,7 @@ python manage.py runserver
 | Ledger | `/ledger/` |
 | Reports | `/reports/` |
 | Admin | `/admin/` |
-| Logout | `/logout/` |
+| Logout | `POST /logout/` |
 
 ---
 

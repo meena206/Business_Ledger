@@ -48,7 +48,6 @@ All HTML templates have been redesigned with:
 - **CSV export** functionality
 - **Keyboard shortcuts** (Ctrl+S to search)
 - **Responsive table handling**
-- **Dark mode toggle** option
 - **Modal management**
 - **Confirmation dialogs**
 - **Live customer search** with debounced background requests and no full-page refresh
@@ -189,7 +188,7 @@ python manage.py runserver
 
 | Component | Technology |
 |-----------|-----------|
-| Backend | Django 6.1 |
+| Backend | Django 6.0.8 |
 | Database | MySQL |
 | Frontend | Bootstrap 5 |
 | Styling | CSS 3 |
@@ -232,7 +231,7 @@ Business_Ledger/
 
 ## ✨ New Features Added
 
-1. **Beautiful Navigation** - Responsive navbar with user menu
+1. **Beautiful Navigation** - Landing-style responsive navbar with user menu
 2. **Auto-Dismissing Alerts** - Notifications automatically close
 3. **Form Validation** - Client-side and server-side validation
 4. **Modal Confirmations** - Safe deletions with confirmation
@@ -240,8 +239,8 @@ Business_Ledger/
 6. **Keyboard Shortcuts** - Quick access to search (Ctrl+S)
 7. **Responsive Tables** - Mobile-friendly data display
 8. **Currency Formatting** - Automatic decimal formatting
-9. **Dark Elements** - Gradient buttons and cards
-10. **Icon Integration** - Visual indicators throughout
+9. **Icon Integration** - Visual indicators throughout
+10. **Secure Logout** - CSRF-protected POST logout action
 
 ---
 
@@ -279,6 +278,7 @@ Business_Ledger/
 - Full backward compatibility
 - Customer creation now saves the customer and initial transaction atomically
 - Customer search updates results without a full-page refresh
+- Logout uses Django's POST-only authentication flow
 
 ---
 

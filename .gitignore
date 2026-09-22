@@ -6,3 +6,5 @@ __pycach__/
 # Environments
 venv/
 .env
+
+staticfiles/

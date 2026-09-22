@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from dotenv import load_dotenv
-import os
 from pathlib import Path
+import os
 
 load_dotenv()
 
@@ -24,15 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qok0c7=sc_d-o!wc_6c0+t%+0d=%19k1j=l%uw+6h7uws9thvt'
+SECRET_KEY = os.environ.get("SECRET_KEY","django-insecure-development-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG","False") == 'True'
 
-ALLOWED_HOSTS = []
-
-
-# Application definition
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS","localhost,127.0.0.1").split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -46,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -84,7 +82,7 @@ DATABASES = {
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_POST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
@@ -125,6 +123,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'ledger' / 'templates' / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Email

@@ -4,6 +4,7 @@ __pycach__/
 *.pyc
 
 # Environments
+env/
 venv/
 .env
 

@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY","django-insecure-development-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG","False") == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS","localhost,127.0.0.1").split(',')
 
@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'business_ledger.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'NAME': os.environ.get('MYSQL_DATABASE'),
+        'USER': os.environ.get('MYSQL_USER'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'HOST': os.environ.get('MYSQL_HOST'),
+        'PORT': os.environ.get('MYSQL_PORT'),
     }
 }
 
@@ -124,6 +124,14 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'ledger' / 'templates' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STORAGES = { "default": { "BACKEND": 
+                         "django.core.files.storage.FileSystemStorage",},
+                         "staticfiles": {
+                             "BACKEND":
+                             "whitenoise.storage.CompressedStaticFilesStorage",
+                         },
+                         }
 
 
 # Email
